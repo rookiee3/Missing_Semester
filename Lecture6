@@ -1,1 +1,41 @@
+# If you don’t have any past experience with Git, either try reading the first couple chapters of Pro Git or go through a tutorial like Learn Git Branching. As you’re working through it, relate Git commands to the data model.
+  https://learngitbranching.js.org/?locale=zh_CN
+  
+# Clone the repository for the class website. https://github.com/missing-semester/missing-semester
+  - Explore the version history by visualizing it as a graph.
+      git log --all --graph --decorate
+      
+  - Who was the last person to modify README.md? (Hint: use git log with an argument).
+      cd missing-semester
+      git log -p README.md
+      
+  - What was the commit message associated with the last modification to the collections: line of _config.yml? (Hint: use git blame and git show).
+       git blame _config.yml
+       git show a88b4eac // a88b4eac is the hash of last modification
+  
+# One common mistake when learning Git is to commit large files that should not be managed by Git or adding sensitive information. Try adding a file to a repository, making some commits and then deleting that file from history (you may want to look at this).
+  echo "password123">my_password
+  git add .
+  git commit -m "add password123 to file"
+  git log HEAD
+  git filter-branch --force --index-filter\
+ 'git rm --cached --ignore-unmatch ./my_password' \
+ --prune-empty --tag-name-filter cat -- --all
+ 
+# Clone some repository from GitHub, and modify one of its existing files. What happens when you do git stash? What do you see when running git log --all --oneline? Run git stash pop to undo what you did with git stash. In what scenario might this be useful?
+  git stash
+  git log --all --oneline
+  git stash pop
 
+# Like many command line tools, Git provides a configuration file (or dotfile) called ~/.gitconfig. Create an alias in ~/.gitconfig so that when you run git graph, you get the output of git log --all --graph --decorate --oneline. Information about git aliases can be found here.
+  cd missing-semester/.git
+  vim config
+    [alias]
+            graph = log --all --graph --decorate --oneline
+  git graph
+
+# You can define global ignore patterns in ~/.gitignore_global after running git config --global core.excludesfile
+  git config --global core.excludesfile ~/.gitignore .DS_Store
+  
+# Fork the repository for the class website, find a typo or some other improvement you can make, and submit a pull request on GitHub (you may want to look at this). https://github.com/missing-semester/missing-semester
+  git clone https://github.com/hanxiaomax/missing-semester.git
